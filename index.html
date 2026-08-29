@@ -110,6 +110,37 @@
     padding:5px 9px;
     border-radius:20px;
     backdrop-filter:blur(2px);
+    z-index:2;
+  }
+  .tile .controls{
+    position:absolute;
+    top:10px;
+    right:10px;
+    display:flex;
+    gap:8px;
+    z-index:2;
+  }
+  .tile .ctrl-btn{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:none;
+    background:rgba(20,18,16,0.55);
+    backdrop-filter:blur(2px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+    transition:background 0.15s ease;
+  }
+  .tile .ctrl-btn:hover{
+    background:rgba(20,18,16,0.8);
+  }
+  .tile .ctrl-btn svg{
+    width:16px;
+    height:16px;
+    fill:#fff;
   }
 
   @media (max-width: 700px){
@@ -259,34 +290,66 @@
     <div class="grid">
       <div class="tile">
         <video src="assets/skincare.mp4" autoplay muted loop playsinline></video>
+        <div class="controls">
+          <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
+          <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
+        </div>
         <span class="label">Skincare</span>
       </div>
       <div class="tile">
         <video src="assets/drink.mp4" autoplay muted loop playsinline></video>
+        <div class="controls">
+          <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
+          <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
+        </div>
         <span class="label">Drink</span>
       </div>
       <div class="tile">
         <video src="assets/food.mp4" autoplay muted loop playsinline></video>
+        <div class="controls">
+          <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
+          <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
+        </div>
         <span class="label">Food</span>
       </div>
       <div class="tile">
         <video src="assets/coffee.mp4" autoplay muted loop playsinline></video>
+        <div class="controls">
+          <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
+          <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
+        </div>
         <span class="label">Coffee</span>
       </div>
       <div class="tile">
         <video src="assets/ranch.mp4" autoplay muted loop playsinline></video>
+        <div class="controls">
+          <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
+          <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
+        </div>
         <span class="label">Ranch</span>
       </div>
       <div class="tile">
         <video src="assets/energy-bar.mp4" autoplay muted loop playsinline></video>
+        <div class="controls">
+          <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
+          <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
+        </div>
         <span class="label">Energy Bar</span>
       </div>
       <div class="tile">
         <video src="assets/tea.mp4" autoplay muted loop playsinline></video>
+        <div class="controls">
+          <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
+          <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
+        </div>
         <span class="label">Tea</span>
       </div>
       <div class="tile">
         <video src="assets/body-scrub.mp4" autoplay muted loop playsinline></video>
+        <div class="controls">
+          <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
+          <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
+        </div>
         <span class="label">Body Scrub</span>
       </div>
     </div>
@@ -339,6 +402,46 @@
 </section>
 
 <footer>Pink Hunny Lab</footer>
+
+<script>
+  const ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+  const ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+  const ICON_MUTED = '<svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 003.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>';
+  const ICON_UNMUTED = '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
+
+  document.querySelectorAll('.tile').forEach(tile => {
+    const video = tile.querySelector('video');
+    const playBtn = tile.querySelector('.play-btn');
+    const muteBtn = tile.querySelector('.mute-btn');
+
+    playBtn.innerHTML = ICON_PAUSE;
+    muteBtn.innerHTML = ICON_MUTED;
+
+    playBtn.addEventListener('click', () => {
+      if (video.paused) { video.play(); } else { video.pause(); }
+    });
+
+    muteBtn.addEventListener('click', () => {
+      if (video.muted) {
+        // unmuting this one — mute every other tile so audio doesn't overlap
+        document.querySelectorAll('.tile').forEach(other => {
+          if (other !== tile) {
+            other.querySelector('video').muted = true;
+            other.querySelector('.mute-btn').innerHTML = ICON_MUTED;
+          }
+        });
+        video.muted = false;
+        muteBtn.innerHTML = ICON_UNMUTED;
+      } else {
+        video.muted = true;
+        muteBtn.innerHTML = ICON_MUTED;
+      }
+    });
+
+    video.addEventListener('play', () => { playBtn.innerHTML = ICON_PAUSE; });
+    video.addEventListener('pause', () => { playBtn.innerHTML = ICON_PLAY; });
+  });
+</script>
 
 </body>
 </html>
