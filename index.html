@@ -14,7 +14,9 @@
     --rose:#CFA7A0;
     --rose-soft:#E7D6D1;
     --orange:#C4633A;
+    --pink:#CFA7A0;
     --muted:#8A8380;
+    --white:#FFFFFF;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -28,6 +30,62 @@
   img,video{max-width:100%;display:block;}
 
   .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:var(--cream);
+    border-bottom:1px solid var(--rose-soft);
+  }
+  .nav-inner{
+    max-width:1160px; margin:0 auto; padding:0 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .wordmark{
+    font-family:'Fraunces', serif; font-weight:600; font-size:19px;
+    text-decoration:none; color:var(--black);
+    display:flex; align-items:center;
+  }
+  .wordmark img{ height:34px; width:auto; display:block; }
+  .nav-links{ display:flex; align-items:center; gap:32px; }
+  .nav-links a{
+    text-decoration:none; font-size:14.5px; font-weight:500; color:var(--muted);
+    padding:6px 0; border-bottom:2px solid transparent;
+  }
+  .nav-links a:hover{ color:var(--black); }
+  .nav-links a.current{ color:var(--black); border-bottom-color:var(--orange); }
+  .nav-links .navbtn{ padding:14px 40px; white-space:nowrap; }
+  .nav-toggle{ display:none; background:none; border:none; cursor:pointer; padding:8px; }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    display:block; width:22px; height:2px; background:var(--black); position:relative;
+    transition:.2s ease;
+  }
+  .nav-toggle span::before, .nav-toggle span::after{ content:''; position:absolute; left:0; }
+  .nav-toggle span::before{ top:-7px; } .nav-toggle span::after{ top:7px; }
+  .navbtn{
+    display:inline-block; text-decoration:none;
+    font-family:'Inter', sans-serif; font-weight:600; font-size:15px;
+    border-radius:40px; cursor:pointer; border:none;
+    background:var(--pink); color:var(--white);
+    transition:transform .15s ease, background .15s ease;
+  }
+  .nav-links a.navbtn{ color:var(--white); }
+  .navbtn:hover{ background:#B08E88; transform:translateY(-1px); }
+  .nav-links a.navbtn:hover{ color:var(--white); }
+
+  @media (max-width:820px){
+    .nav-links{
+      position:fixed; top:72px; left:0; right:0; bottom:0;
+      background:var(--cream); flex-direction:column; align-items:flex-start;
+      padding:28px 24px; gap:22px; transform:translateX(100%);
+      transition:transform .25s ease; overflow-y:auto;
+    }
+    .nav-links.open{ transform:translateX(0); }
+    .nav-links a{ font-size:18px; }
+    .nav-links .navbtn{ width:100%; text-align:center; }
+    .nav-toggle{ display:block; }
+  }
 
   /* ---------- HERO ---------- */
   header.hero{
@@ -267,18 +325,35 @@
     .cards{grid-template-columns:1fr;}
   }
 
-  footer{
-    text-align:center;
-    padding:30px 24px;
-    font-size:12px;
-    color:var(--muted);
-    letter-spacing:0.04em;
-  }
+  footer{ background:var(--black); color:var(--cream); padding:64px 24px 32px; }
+  .footer-inner{ max-width:1160px; margin:0 auto; }
+  .footer-top{ display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; margin-bottom:44px; }
+  .footer-brand .wordmark{ color:var(--cream); font-size:21px; }
+  .footer-brand p{ color:var(--rose); font-size:14px; max-width:340px; margin-top:12px; line-height:1.6; }
+  .footer-links{ display:flex; gap:56px; flex-wrap:wrap; }
+  .footer-col h4{ font-size:12px; font-family:'IBM Plex Mono',monospace; letter-spacing:0.08em; color:var(--rose); margin:0 0 14px; }
+  .footer-col a{ display:block; text-decoration:none; color:var(--cream); font-size:14.5px; margin-bottom:10px; opacity:0.9; }
+  .footer-col a:hover{ opacity:1; text-decoration:underline; }
+  .footer-bottom{ border-top:1px solid rgba(248,246,243,0.15); padding-top:24px; font-size:13px; color:var(--rose); }
 </style>
 </head>
 <body>
 
-<header class="hero">
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="wordmark"><img src="assets/logo.png" alt="Pink Hunny Lab"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+    <nav class="nav-links" id="navLinks">
+      <!-- A+ Content page isn't live yet at this URL — it will be once that repo (phl-a-plus-content) is built and published -->
+      <a href="https://pinkhunnylab.github.io/phl-a-plus-content/">Amazon A+ Content</a>
+      <a href="https://pinkhunnylab.github.io/phl-listing-images/">Listing Images</a>
+      <a href="#top" class="current">Videos</a>
+      <a href="https://tidycal.com/1wego4j/amazon-listing-check" class="navbtn">Book a consultation</a>
+    </nav>
+  </div>
+</header>
+
+<header class="hero" id="top">
   <div class="eyebrow">Pink Hunny Lab</div>
   <h1>No video on your listings? <em>You're leaving sales on the table.</em></h1>
   <p class="sub">Quick, scroll-stopping teaser videos for your Amazon listings — 20 or 30 seconds, built to grab attention in the first few seconds and turn browsers into buyers.</p>
@@ -401,9 +476,44 @@
   </div>
 </section>
 
-<footer>Pink Hunny Lab</footer>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="wordmark">Pink Hunny Lab</div>
+        <p>Amazon listing images, A+ content, and product videos for brands that want to be understood.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <a href="https://pinkhunnylab.github.io/phl-listing-images/">Amazon Listing Images</a>
+          <a href="https://pinkhunnylab.github.io/phl-a-plus-content/">A+ Content</a>
+          <a href="#top">Product Videos</a>
+        </div>
+        <div class="footer-col">
+          <h4>Get in touch</h4>
+          <a href="https://tidycal.com/1wego4j/amazon-listing-check">Book a consultation</a>
+          <a href="mailto:hello@pinkhunnylab.com">Email us</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">hello@pinkhunnylab.com</div>
+  </div>
+</footer>
 
 <script>
+  // ============ MOBILE NAV ============
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+
   const ICON_PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
   const ICON_PAUSE = '<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
   const ICON_MUTED = '<svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 003.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>';
