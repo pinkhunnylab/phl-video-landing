@@ -378,7 +378,7 @@
   <div class="wrap">
     <div class="grid">
       <div class="tile">
-        <video src="assets/skincare.mp4" autoplay muted loop playsinline></video>
+        <video preload="auto" data-lazy-play autoplay src="assets/skincare.mp4" poster="assets/skincare-poster.jpg" muted loop playsinline></video>
         <div class="controls">
           <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
           <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
@@ -386,7 +386,7 @@
         <span class="label">Skincare</span>
       </div>
       <div class="tile">
-        <video src="assets/drink.mp4" autoplay muted loop playsinline></video>
+        <video preload="none" data-lazy-play src="assets/drink.mp4" poster="assets/drink-poster.jpg" muted loop playsinline></video>
         <div class="controls">
           <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
           <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
@@ -394,7 +394,7 @@
         <span class="label">Drink</span>
       </div>
       <div class="tile">
-        <video src="assets/food.mp4" autoplay muted loop playsinline></video>
+        <video preload="none" data-lazy-play src="assets/food.mp4" poster="assets/food-poster.jpg" muted loop playsinline></video>
         <div class="controls">
           <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
           <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
@@ -402,7 +402,7 @@
         <span class="label">Food</span>
       </div>
       <div class="tile">
-        <video src="assets/coffee.mp4" autoplay muted loop playsinline></video>
+        <video preload="none" data-lazy-play src="assets/coffee.mp4" poster="assets/coffee-poster.jpg" muted loop playsinline></video>
         <div class="controls">
           <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
           <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
@@ -410,7 +410,7 @@
         <span class="label">Coffee</span>
       </div>
       <div class="tile">
-        <video src="assets/ranch.mp4" autoplay muted loop playsinline></video>
+        <video preload="none" data-lazy-play src="assets/ranch.mp4" poster="assets/ranch-poster.jpg" muted loop playsinline></video>
         <div class="controls">
           <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
           <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
@@ -418,7 +418,7 @@
         <span class="label">Ranch</span>
       </div>
       <div class="tile">
-        <video src="assets/energy-bar.mp4" autoplay muted loop playsinline></video>
+        <video preload="none" data-lazy-play src="assets/energy-bar.mp4" poster="assets/energy-bar-poster.jpg" muted loop playsinline></video>
         <div class="controls">
           <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
           <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
@@ -426,7 +426,7 @@
         <span class="label">Energy Bar</span>
       </div>
       <div class="tile">
-        <video src="assets/tea.mp4" autoplay muted loop playsinline></video>
+        <video preload="none" data-lazy-play src="assets/tea.mp4" poster="assets/tea-poster.jpg" muted loop playsinline></video>
         <div class="controls">
           <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
           <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
@@ -434,7 +434,7 @@
         <span class="label">Tea</span>
       </div>
       <div class="tile">
-        <video src="assets/body-scrub.mp4" autoplay muted loop playsinline></video>
+        <video preload="none" data-lazy-play src="assets/body-scrub.mp4" poster="assets/body-scrub-poster.jpg" muted loop playsinline></video>
         <div class="controls">
           <button class="ctrl-btn play-btn" aria-label="Play or pause"></button>
           <button class="ctrl-btn mute-btn" aria-label="Mute or unmute"></button>
@@ -567,5 +567,22 @@
   });
 </script>
 
+
+<script>
+// Play each showreel only when it is actually on screen, and never preload
+// them up front, so the page stays light on mobile data.
+(function () {
+  var vids = document.querySelectorAll('video[data-lazy-play]');
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) { v.play().catch(function () {}); }
+      else { v.pause(); }
+    });
+  }, { threshold: 0.6 });
+  vids.forEach(function (v) { io.observe(v); });
+})();
+</script>
 </body>
 </html>
